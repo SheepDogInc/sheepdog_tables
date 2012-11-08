@@ -11,6 +11,7 @@ setup(
     url = "https://github.com/SheepDogInc/sheepdog_tables",
     packages=find_packages(),
     include_package_data=True,
+    data_files=['templates'],
     long_description="",
     classifiers=
         [
