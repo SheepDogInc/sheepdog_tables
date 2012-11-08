@@ -1,3 +1,5 @@
+import sheepdog_tables
+
 from setuptools import setup, find_packages
 
 setup(
