@@ -1,5 +1,3 @@
-import sheepdog_tables
-
 from setuptools import setup, find_packages
 
 setup(
@@ -14,5 +12,17 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     long_description="",
-    classifiers=[],
+    classifiers=
+        [
+            "Environment :: Web Environment",
+            "Framework :: Django",
+            "License :: OSI Approved :: BSD License",
+            "Operating System :: OS Independent",
+            "Programming Language :: CoffeeScript",
+            "Programming Language :: Python :: 2.6",
+            "Programming Language :: Python :: 2.7",
+            "Topic :: Internet :: WWW/HTTP",
+            "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+            "Topic :: Software Development :: Libraries :: Python Modules",
+        ]
 )
