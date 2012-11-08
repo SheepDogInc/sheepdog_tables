@@ -1,20 +1,5 @@
 from setuptools import setup, find_packages
-import os
 
-root_dir = os.path.dirname(__file__)
-if root_dir != '':
-    os.chdir(root_dir)
-
-data_files = []
-for dirpath, dirnames, filenames in os.walk("sheepdog_tables"):
-    # Ignore PEP 3147 cache dirs and those whose names start with '.'
-    for i, dirname in enumerate(dirnames):
-        if dirname.startswith('.') or dirname == '__pycache__':
-            del dirnames[i]
-    if '__init__.py' not in filenames:
-        data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
-
-print data_files
 setup(
     name = "sheepdog_tables",
     version = "0.5",
@@ -25,9 +10,8 @@ setup(
     keywords = "tables",
     url = "https://github.com/SheepDogInc/sheepdog_tables",
     packages=find_packages(),
-    include_package_data=True,
-    data_files=data_files,
     long_description="",
+    include_package_data=True,
     classifiers=
         [
             "Environment :: Web Environment",
@@ -40,6 +24,6 @@ setup(
             "Topic :: Internet :: WWW/HTTP",
             "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
             "Topic :: Software Development :: Libraries :: Python Modules",
-        ]
+        ],
 )
 

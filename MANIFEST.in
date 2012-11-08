@@ -1,0 +1,2 @@
+recursive-include sheepdog_tables/static *
+recursive-include sheepdog_tables/templates *
