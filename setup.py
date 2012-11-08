@@ -1,4 +1,14 @@
 from setuptools import setup, find_packages
+import os
+
+data_files = []
+for dirpath, dirnames, filenames in os.walk("sheepdog_tables"):
+    # Ignore PEP 3147 cache dirs and those whose names start with '.'
+    for i, dirname in enumerate(dirnames):
+        if dirname.startswith('.') or dirname == '__pycache__':
+            del dirnames[i]
+    if '__init__.py' not in filenames:
+        data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
 setup(
     name = "sheepdog_tables",
@@ -11,7 +21,7 @@ setup(
     url = "https://github.com/SheepDogInc/sheepdog_tables",
     packages=find_packages(),
     include_package_data=True,
-    data_files=['sheepdog_tables/templates/tables/table.html'],
+    data_files=data_files,
     long_description="",
     classifiers=
         [
