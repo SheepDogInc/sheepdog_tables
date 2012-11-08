@@ -1,0 +1,55 @@
+{% load get %}
+{% load urlbuilder %}
+{% load call %}
+{% if table.page_obj.object_list %}
+    {% spaceless %}
+        <table
+            {% if table.table.table_attrs %}
+                {% for attr in table.table.table_attrs %}
+                    {{ attr }}="{{ table.table.table_attrs|get:attr }}"
+                {% endfor %}
+            {% endif %}
+        >
+    {% endspaceless %}
+    <thead><tr>
+        {% for header in table.table.headers %}
+            <th>{{ header }}</th>
+        {% endfor %}
+    </tr></thead>
+    <tbody>
+        {% for obj in table.page_obj.object_list %}
+            <tr>
+                {% for field in table.table.table_sequence %}
+                    {% with table.table.table_columns|get:field as col %}
+                        {% spaceless %}
+                        <td>
+                            {% if col.is_linked %}
+                                {% call col get_url request as url %}
+                                <a href="{% urlbuilder url obj %}"
+                                    {% for a in url.attrs %}
+                                        {{ a }}="{{ url.attrs|get:a }}"
+                                    {% endfor %}
+                                >
+                            {% endif %}
+                            {% call col value obj %}
+                            {% if col.is_linked %}
+                                </a>
+                            {% endif %}
+                        </td>
+                        {% endspaceless %}
+                    {% endwith %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    {% if table.page_obj and table.page_obj.has_other_pages %}
+        {% with table.page_obj as page_obj %}
+            {% include "tables/pagination_controls.html" %}
+        {% endwith %}
+    {% endif %}
+{% else %}
+    <div class="alert alert-block">
+        {{ table.table.table_empty }}
+    </div>
+{% endif %}

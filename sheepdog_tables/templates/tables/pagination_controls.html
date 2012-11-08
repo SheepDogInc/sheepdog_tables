@@ -1,0 +1,36 @@
+{% load i18n %}
+<div class="pagination pagination-centered">
+    <ul>
+        {% if page_obj.has_previous %}
+            <li class="prev">
+                <a href="javascript:void(0)" class="table-pager" data-ns="{{ page_obj.paginator.ns }}" data-page="{{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
+            </li>
+        {% else %}
+            {% if display_disabled_previous_link %}
+                <li class="prev disabled"><a>{{ previous_link_decorator|safe }}{% trans "Previous" %}</a></li>
+            {% endif %}
+        {% endif %}
+        {% for page in page_obj.paginator.pages %}
+            {% if page %}
+                {% ifequal page page_obj.number %}
+                    <li class="active"><a href="javascript:void(0)">{{ page }}</a></li>
+                {% else %}
+                    <li>
+                        <a href="javascript:void(0)" class="table-pager" data-ns="{{ page_obj.paginator.ns }}" data-page="{{ page }}">{{ page }}</a>
+                    </li>
+                {% endifequal %}
+            {% else %}
+                <li class="disabled"><a href="javascript:void(0)">...</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="next">
+                <a href="javascript:void(0)" class="table-pager" data-ns="{{ page_obj.paginator.ns }}" data-page="{{ page_obj.next_page_number }}">{% trans "Next" %}</a>
+            </li>
+        {% else %}
+            {% if display_disabled_next_link %}
+                <li class="next disabled"><a>{% trans "Next" %}{{ next_link_decorator|safe }}</a></li>
+            {% endif %}
+        {% endif %}
+    </ul>
+</div>
