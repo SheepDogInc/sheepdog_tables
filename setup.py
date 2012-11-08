@@ -12,6 +12,7 @@ setup(
     keywords = "tables",
     url = "https://github.com/SheepDogInc/sheepdog_tables",
     packages=find_packages(),
+    include_package_data=True,
     long_description="",
     classifiers=[],
 )
