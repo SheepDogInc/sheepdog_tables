@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name = "sheepdog_tables",
@@ -9,7 +9,7 @@ setup(
     license = "BSD",
     keywords = "tables",
     url = "https://github.com/SheepDogInc/sheepdog_tables",
-    packages=['sheepdog_tables'],
+    packages=find_packages(),
     long_description="",
     classifiers=[],
 )
