@@ -97,3 +97,22 @@ class Column(object):
                 fn = getattr(object, a)
                 object = fn() if callable(fn) else fn
         return object or self.default
+
+
+class DictColumn(Column):
+    def value(self, d):
+        if self.accessor is None and '__' not in self.field:
+            # accessor is just a plain field
+            d = d.get(self.field, None)
+        elif hasattr(self.accessor, '__call__'):
+            # accessor can be a callable
+            d = self.accessor(d)
+        else:
+            # accessor is some crazy dot or underscore notation
+            arg = self.accessor.replace('__', '.').split('.')
+            for a in arg:
+                if d is None:
+                    return self.default
+                fn = d.get(a, None)
+                d = fn() if callable(fn) else fn
+        return d or self.default
