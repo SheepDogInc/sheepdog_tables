@@ -1,5 +1,3 @@
-from django.core.urlresolvers import reverse
-
 class ColumnURL(object):
     """
     Represents the url a column's data should point to.
@@ -28,7 +26,7 @@ class ColumnURL(object):
 
 class Column(object):
     """
-    Generic table column
+    Generic table column based off object access.  Built to work with models.
 
     :params
 
@@ -90,7 +88,8 @@ class Column(object):
             object = self.accessor(object)
         else:
             # accessor is some crazy dot or underscore notation
-            arg = self.accessor.replace('__', '.').split('.')
+            chain = self.accessor or self.field
+            arg = chain.replace('__', '.').split('.')
             for a in arg:
                 if object is None:
                     return self.default
@@ -100,6 +99,11 @@ class Column(object):
 
 
 class DictColumn(Column):
+    """
+    Dict Column for tables based off REST objects and other dictionaries.
+
+    This is meant to be used in conjunction with MockQuerySet found in utils.py
+    """
     def value(self, d):
         if self.accessor is None and '__' not in self.field:
             # accessor is just a plain field
@@ -109,7 +113,8 @@ class DictColumn(Column):
             d = self.accessor(d)
         else:
             # accessor is some crazy dot or underscore notation
-            arg = self.accessor.replace('__', '.').split('.')
+            chain = self.accessor or self.field
+            arg = chain.replace('__', '.').split('.')
             for a in arg:
                 if d is None:
                     return self.default
