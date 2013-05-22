@@ -11,17 +11,10 @@ class CSVExportView(View):
     based on a table given as 'table'.  This should only be posted to, and thus
     should be on it's own URL.
 
-    :params
-
-    filename -- the filename to write to, without an extension
-
-    table -- the table to use as a template
-
-    form_class -- used to render the form on whatever other page you want.
-
-    redirect -- Where to go if the pks value is empty
-
-    Meta.model -- the model we are using
+    :param filename: The filename to write to, without an extension
+    :param table: The table to use as a template
+    :param form_class: Used to render the form on whatever other page you want.
+    :param redirect: Where to go if the pks value is empty
     """
 
     filename = None
@@ -30,16 +23,30 @@ class CSVExportView(View):
     redirect = None
 
     class Meta:
+        """
+        :param model: The Model we are using
+        """
         model = None
 
     @classmethod
     def get_csvexport_form(cls, queryset=None):
+        """
+        Generates a _`CSVExportForm`
+
+        :param queryset: The queryset to use for form initialization
+        """
         initial = {}
         if queryset:
             initial = {'id': ','.join([pk['pk'] for pk in queryset.values('pk')])}
         return cls.form_class(initial=initial)
 
     def post(self, request, *args, **kwargs):
+        """
+        HTTP POST Handler for Form Data.  Does CSV Export.
+
+        :param request: The request in context.
+        :return: Response with CSV file or redirect on error
+        """
         pks = request.POST.get('id', None)
 
         if self.redirect is None:
@@ -65,6 +72,12 @@ class CSVExportView(View):
         return response
 
     def export_object_to_csv(self, writer, obj):
+        """
+        Worker function for building CSV and proper character encoding.
+
+        :param writer: The CSV writer we are utilizing.
+        :param obj: The current model object in context.
+        """
         cols = []
         for key in self.table.table_sequence:
             value = self.table.table_columns[key].csv_value(obj)
@@ -73,8 +86,21 @@ class CSVExportView(View):
         writer.writerow(cols)
 
     def export_objects_to_csv(self, writer, objects):
+        """
+        Worker function to scroll through and process objects.
+
+        :param writer: The CSV writer we are utilizing
+        :param objects: The list of objects we are including in output.
+        """
         for obj in objects:
             self.export_object_to_csv(writer, obj)
 
     def annotate(self, objects, request=None):
+        """
+        Overridable annotation function for extra required data.
+
+        :param objects: The list of objects to act on.
+        :param request: The current request in context.
+        :return: The passed objects.
+        """
         return objects

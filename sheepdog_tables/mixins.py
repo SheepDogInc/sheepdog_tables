@@ -1,6 +1,6 @@
 from inspect import getmembers
-from .paginator import NamespacedPaginator
-from .table import Table
+from sheepdog_tables.paginator import NamespacedPaginator
+from sheepdog_tables.table import Table
 
 class TablesMixin(object):
     """
@@ -12,22 +12,28 @@ class TablesMixin(object):
     Each table you want needs to be declared as a class attribute, as
     such:
 
+    ::
+
         class MyView(TablesMixin, ListView):
             main_table = MyCrazyTable()
 
     When you want to render the table, the generic template
-    general/table.html expects a context variable called table.
+    _`general/table.html` expects a context variable called table.
     Therefore, you should utilize a with statement in your template
     for proper rendering, something like:
 
+    ::
+
         {% with my_table as table %}
-            {% include "general/table.html %}
+            {% include "general/table.html" %}
         {% endwith %}
 
     """
 
     def get_context_data(self, **kwargs):
-
+        """
+        Builds and returns a dictionary of tables for a given view.
+        """
         # Class Dict shortcut
         l = lambda k: getattr(self, k, None)
         table_keys = [k for k,v in getmembers(self) if isinstance(v, Table)]
@@ -60,5 +66,7 @@ class TablesMixin(object):
         especially in cases where GET and POST parameters or URL kwargs are
         used to decide what to display, as opposed to passing all of that info
         around.
+
+        :param table_key: Used only if overridden by programmer.
         """
         return self.get_queryset().all()

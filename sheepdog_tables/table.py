@@ -1,8 +1,8 @@
 from inspect import getmembers
 from django.core.exceptions import ImproperlyConfigured
-from .column import Column
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from sheepdog_tables.column import Column
 
 class Table(object):
     """
@@ -10,24 +10,23 @@ class Table(object):
 
     This is for adding model based tables to your page.  It doesn't
     need to know what model it is using, it's all based off whatever
-    queryset the ListView class contains (see docs for ``TablesMixin``)
+    queryset the ListView class contains (see docs for _`TablesMixin`)
 
     Each column is set as a normal class attribute.  For instance:
+
+    ::
 
         class MyCrazyTable(Table):
             field1 = Column()
             second = Column(field="field2", header="Hello")
 
 
-    :params
+    :param table_page_limit: The number of items to show per page.
+    :param table_attrs: HTML Attributes for <table></table> tags
+    :param table_empty: String to print if no data is available
+    :param table_sequence: The explicit sequence of columns to show. Required.
 
-    table_page_limit - The number of items to show per page.
-
-    table_attrs - HTML Attributes for <table></table> tags
-
-    table_empty - String to print if no data is available
-
-    table_sequence - The explicit sequence of columns to show.
+    :param is_paged: Defines whether the table should be paged.
     """
     table_page_limit = getattr(settings, 'DEFAULT_ITEMS_PER_PAGE', 25)
     table_attrs = {'class': 'table table-bordered table-striped'}
@@ -42,7 +41,11 @@ class Table(object):
         self.gen_columns()
 
     def gen_columns(self):
-        # l(k) -> class.__dict__[k]
+        """
+        Populate {self.table_columns} with each table column object, keyed by
+        attribute name.  Also sets the field attribute on each column to the
+        attribute name unless it was manually set by the programmer.
+        """
         members_dict = dict(getmembers(self))
         l = lambda k: members_dict[k]
         # Extract the columns into our own nifty dict for later
@@ -55,9 +58,22 @@ class Table(object):
                 self.table_columns[k] = l(k)
 
     def filter(self, queryset):
+        """
+        Entry point for custom filtering.
+
+        :param queryset: to filter
+        :returns: The filtered QuerySet
+        """
         return queryset
 
     def annotate(self, queryset):
+        """
+        Performs the grunt work of annotating a queryset per column which
+        defines an annotation.
+
+        :param queryset: The QuerySet to annotate
+        :returns: The Annotated QuerySet
+        """
         cols = self.table_columns
         annotated_columns = [col for col in cols
                              if cols[col].annotation is not None]
@@ -68,5 +84,10 @@ class Table(object):
         return queryset
 
     def headers(self):
+        """
+        Get a list of headers for this table
+
+        :returns: the list of headers
+        """
         return [self.table_columns[h].header or h.title()
                 for h in self.table_sequence]

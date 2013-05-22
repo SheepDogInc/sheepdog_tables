@@ -3,18 +3,25 @@ from django.core.urlresolvers import reverse
 
 register = template.Library()
 
-"""
-Call method of an object passing it args.  Also accepts an as parameter to set
-context variable.
-
-Basic usage:
-
-    {% call obj callable arg1 arg2 arg3 arg4 as url %}
-
-As clause and args are totally optional
-"""
 
 class CallNode(template.Node):
+    """
+    Call method of an object passing it args.  Also accepts an as parameter to set
+    context variable.
+
+    Basic usage:
+
+    ::
+
+        {% call obj callable arg1 arg2 arg3 arg4 as url %}
+
+    As clause and args are totally optional
+
+    :param obj: The object to take into context for the call.
+    :param callable: The function we are going to call wrt the object.
+    :param args: Any arguments that should be passed along.
+    :param var: The variable in which to store the result.
+    """
     def __init__(self, obj, callable, args, var):
         self.obj = obj
         self.callable = callable
@@ -22,6 +29,12 @@ class CallNode(template.Node):
         self.var = var
 
     def render(self, context):
+        """
+        Render's the value, calling the function
+
+        :param context: The current template context
+        :return: Either the called result or ""
+        """
         try:
             obj = context.get(self.obj, None)
 
@@ -37,6 +50,12 @@ class CallNode(template.Node):
             return ""
 
 def call(parser, token):
+    """
+    Tag entry point.
+
+    :param parser: Utility reasons.
+    :param token: The string to split into a call.
+    """
     try:
         contents = token.split_contents()
 
