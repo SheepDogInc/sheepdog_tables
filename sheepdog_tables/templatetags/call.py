@@ -30,7 +30,7 @@ class CallNode(template.Node):
 
     def render(self, context):
         """
-        Render's the value, calling the function
+        Renders the value, calling the function
 
         :param context: The current template context
         :return: Either the called result or ""

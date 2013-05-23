@@ -10,7 +10,7 @@ class Table(object):
 
     This is for adding model based tables to your page.  It doesn't
     need to know what model it is using, it's all based off whatever
-    queryset the ListView class contains (see docs for _`TablesMixin`)
+    queryset the ListView class contains (see docs for :py:class:`TablesMixin`)
 
     Each column is set as a normal class attribute.  For instance:
 
@@ -42,7 +42,7 @@ class Table(object):
 
     def gen_columns(self):
         """
-        Populate {self.table_columns} with each table column object, keyed by
+        Populates :py:attr:`table_columns` with each table column object, keyed by
         attribute name.  Also sets the field attribute on each column to the
         attribute name unless it was manually set by the programmer.
         """

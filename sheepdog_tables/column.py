@@ -30,7 +30,7 @@ class Column(object):
     :param accessor: Access path to data. Ex. 'created.date' or 'user__username'
     :param annotation: A callable for data annotation, if needed.
     :param default: What to display if the data is NULL.
-    :param url_class: The _`ColumnURL` class for the field.
+    :param url_class: The :py:class:`ColumnURL` class for the field.
 
     """
     def __init__(self, field=None, header=None, accessor=None,
@@ -45,7 +45,7 @@ class Column(object):
 
     def is_linked(self):
         """
-        Whether this column has an associated _`ColumnURL` class.
+        Whether this column has an associated :py:class:`ColumnURL` class.
         
         :returns: True or False based off mentioned criteria.
         """
@@ -53,10 +53,10 @@ class Column(object):
 
     def get_url(self, request=None):
         """
-        Helper method for _`ColumnURL` object.
+        Helper method for :py:class:`ColumnURL` object.
 
         :param request: The HTTP request in context.  Used in method overloading.
-        :returns: A new instance of the _`ColumnURL` class for this column.
+        :returns: A new instance of the :py:class:`ColumnURL` class for this column.
         """
         return self.url_class()
 
@@ -97,7 +97,8 @@ class Column(object):
 class DictColumn(Column):
     """
     Dict Column for tables based off REST objects and other dictionaries.
-    This is meant to be used in conjunction with MockQuerySet found in utils.py
+    This is meant to be used in conjunction with :py:class:`MockQuerySet` found in
+    :py:mod:`utils`
     """
     def value(self, d):
         """

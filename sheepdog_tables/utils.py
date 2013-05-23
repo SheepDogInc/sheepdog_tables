@@ -3,7 +3,7 @@ class MockQuerySet(object):
     MockQuerySet makes a list of dictionaries look like a queryset, providing
     several necessary functions without breaking anything.
 
-    The idea here is that the get_table_qs method of TablesMixin should return
+    The idea here is that the get_table_qs method of :py:class:`TablesMixin` should return
     one of these objects when you are using a dictionary based representation
     of data.
 
@@ -17,7 +17,7 @@ class MockQuerySet(object):
         """
         Wrapper function for all()
 
-        :return: _`MockQuerySet` of all dicts.
+        :return: :py:class:`MockQuerySet` of all dicts.
         """
         return MockQuerySet(self.dict_list)
 
@@ -25,7 +25,7 @@ class MockQuerySet(object):
         """
         Wrapper function for len() and so on.
 
-        :return: The length of dict_list
+        :return: The length of :py:attr:`dict_list`
         """
         return len(self.dict_list)
 
@@ -34,6 +34,6 @@ class MockQuerySet(object):
         Wrapper function for iteration
 
         :param n: The index to access.
-        :returns: The nth member of dict_list
+        :returns: The nth member of :py:attr:`dict_list`
         """
         return self.dict_list[n]

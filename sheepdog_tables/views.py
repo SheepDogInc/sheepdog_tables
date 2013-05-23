@@ -31,7 +31,7 @@ class CSVExportView(View):
     @classmethod
     def get_csvexport_form(cls, queryset=None):
         """
-        Generates a _`CSVExportForm`
+        Generates a :py:class:`CSVExportForm`
 
         :param queryset: The queryset to use for form initialization
         """

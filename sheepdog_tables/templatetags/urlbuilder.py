@@ -6,10 +6,10 @@ register = template.Library()
 
 class UrlBuilderNode(template.Node):
     """
-    urlbuilder is a template tag that takes a TableRowURL object
+    urlbuilder is a template tag that takes a :py:class:`TableRowURL` object
     and an object to get data from, like a Participant or Connector.
     It builds a list of arguments from the args parameter as found in
-    TableRowURL.  For each one, it checks if the argument matches a
+    :py:class:`TableRowURL`.  For each one, it checks if the argument matches a
     property of the passed object, and will use that property.  Otherwise
     it will just pass through the argument as is.
 
@@ -22,7 +22,7 @@ class UrlBuilderNode(template.Node):
 
         {% urlbuilder tablerowurl object %}
 
-    :param url: A TableRowURL object or matching subclass
+    :param url: A :py:class:`TableRowURL` object or matching subclass
     :param obj: A (normally) model backed object.
 
     """

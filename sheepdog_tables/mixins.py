@@ -18,7 +18,7 @@ class TablesMixin(object):
             main_table = MyCrazyTable()
 
     When you want to render the table, the generic template
-    _`general/table.html` expects a context variable called table.
+    *general/table.html* expects a context variable called table.
     Therefore, you should utilize a with statement in your template
     for proper rendering, something like:
 
@@ -58,7 +58,7 @@ class TablesMixin(object):
 
     def get_table_qs(self, table_key=None, **kwargs):
         """
-        get_table_qs fetches the table queryset.  Passed in this function is
+        Fetches the table queryset.  Passed in this function is
         the table key, which can either be ignored or utilized to differentiate
         between tables, in cases where multiple models are being used.
 
