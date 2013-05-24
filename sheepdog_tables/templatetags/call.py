@@ -11,7 +11,7 @@ class CallNode(template.Node):
 
     Basic usage:
 
-    ::
+    .. code-block:: django
 
         {% call obj callable arg1 arg2 arg3 arg4 as url %}
 

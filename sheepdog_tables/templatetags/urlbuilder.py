@@ -18,7 +18,7 @@ class UrlBuilderNode(template.Node):
 
     Usage for this template tag are as follows:
 
-    ::
+    .. code-block:: django
 
         {% urlbuilder tablerowurl object %}
 

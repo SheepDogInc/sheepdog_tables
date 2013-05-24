@@ -3,11 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to sheepdog_tables's documentation!
-===========================================
+sheepdog_tables Documentation
+=============================
 
-.. toctree::
-   :maxdepth: 2
+Introduction
+------------
 
 sheepdog_tables is a powerful but simple library for table and reports
 generation.  Table rows can be both based on Django models and lists of dicts,
@@ -19,6 +19,9 @@ view.  This way, you can easily incorporate it into preexisting views, make
 whatever modifications you wish, and even include multiple tables in the same
 view and have custom processing for each.  The mixin is
 :py:class:`sheepdog_tables.mixins.TablesMixin`.
+
+TablesMixin
+-----------
 
 Tables are the heart of this application.  Again, like 
 :py:class:`sheepdog_tables.mixins.TablesMixin`, there is a single class,
@@ -46,6 +49,9 @@ information that :py:class:`sheepdog_tables.mixins.TablesMixin` needs is
 available.  Again, the mixin doesn't assume that you even want to call this
 context data, and in Python, explicit is always better than implicit.
 
+Tables
+------
+
 Let's take a look at tables now.  In our example above, we've declared two
 tables, and included them both in this class.  Context data wise, this will give
 us two variables, `table_1` and `table_2`, which we can then use as we please in
@@ -70,12 +76,17 @@ field, we'll access `MyModel.myfield` as opposed to `MyModel.second`.  Also, our
 header will be automatically set to 'Myfield'.  This can be overwritten to
 whatever we desire by specifiying a `header=` in the constructor.
 
+Related Fields and Other Data
+-----------------------------
+
 What if we want to select a related field, or some other piece of data attached
 to a field on a given model, like a date off of a `datetime` object?  Well,
 `sheepdog_tables` is smart enough to figure this kind of stuff out.  We have an
 alternative keyword argument for the :py:class:`sheepdog_tables.column.Column` 
 class called `accessor` that we can specify a 'path' for the column's `value`
-function to follow and evaluate.  Examples are as such::
+function to follow and evaluate.  Examples are as such
+
+.. code-block:: python
 
     class Table2(sheepdog_tables.table.Table):
         date_created = sheepdog_tables.column.Column(accessor="created.date")
@@ -83,7 +94,9 @@ function to follow and evaluate.  Examples are as such::
 
 Look familiar? We know how to parse both '__' and '.', and grab whatever data
 you want.  But what about computed data? For this, we can use django's built in
-QuerySet annotations. Again, this is an extra keyword on the column class::
+QuerySet annotations. Again, this is an extra keyword on the column class
+
+.. code-block:: python
 
     class Table2(sheepdog_tables.table.Table):
         date_created = sheepdog_tables.column.Column(accessor="created.date")
@@ -99,10 +112,16 @@ automatically access this field for you when you go to display the table. The
 lambda function here takes a queryset, performs an annotation, and returns a 
 resultant queryset.
 
+Storing your stuff
+------------------
+
 All of these tables should be stored in a file in your app's directory called
 'tables.py'.  This keeps them all in one convenient location, and makes it
 really easy for you to go and reuse tables.  You can also subclass tables, and
 everything will just work as you would expect.
+
+Displaying your stuff
+---------------------
 
 "OK, now how do I display these tables..." you may ask.  Well, we've got a nice,
 generic template for you to use.  It expects a single variable to exist in
@@ -114,7 +133,9 @@ template you write by simply using an include tag.  That variable name? 'table'.
 were more than one, though honestly, we could have called them `pink` and `blue`
 had we wanted to.  This is where the power of Django's templating system comes
 in.  Simply put, we use a while block in order to label one of these tables as
-`table`, and then include the template within that while block::
+`table`, and then include the template within that while block
+
+.. code-block:: django
 
     {% with table_1 as table %}
         {% include "sheepdog_tables/tables/table.html" %}
@@ -127,6 +148,9 @@ in.  Simply put, we use a while block in order to label one of these tables as
 This lets you have as many tables as you want on screen, ordered however you
 want, and placed wherever you want!
 
+Making your stuff pretty
+------------------------
+
 Stylewise, attributes are declared on the table itself in the class.  Check out
 the docs for :py:class:`sheepdog_tables.table.Table` for more information.  Our
 library likes bootstrap, and our templates are written with bootstrap2 in mind,
@@ -134,7 +158,7 @@ but feel free to hack away and make our templates work with your favourite
 framework.
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

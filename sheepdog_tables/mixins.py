@@ -12,7 +12,7 @@ class TablesMixin(object):
     Each table you want needs to be declared as a class attribute, as
     such:
 
-    ::
+    .. code-block:: python
 
         class MyView(TablesMixin, ListView):
             main_table = MyCrazyTable()
@@ -22,7 +22,7 @@ class TablesMixin(object):
     Therefore, you should utilize a with statement in your template
     for proper rendering, something like:
 
-    ::
+    .. code-block:: django
 
         {% with my_table as table %}
             {% include "general/table.html" %}
