@@ -3,7 +3,7 @@ class MockQuerySet(object):
     MockQuerySet makes a list of dictionaries look like a queryset, providing
     several necessary functions without breaking anything.
 
-    The idea here is that the get_table_qs method of :py:class:`TablesMixin` should return
+    The idea here is that the get_table_qs method of :py:class:`sheepdog_tables.mixins.TablesMixin` should return
     one of these objects when you are using a dictionary based representation
     of data.
 

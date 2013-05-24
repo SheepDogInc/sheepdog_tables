@@ -97,8 +97,7 @@ class Column(object):
 class DictColumn(Column):
     """
     Dict Column for tables based off REST objects and other dictionaries.
-    This is meant to be used in conjunction with :py:class:`MockQuerySet` found in
-    :py:mod:`utils`
+    This is meant to be used in conjunction with :py:class:`sheepdog_tables.utils.MockQuerySet`
     """
     def value(self, d):
         """

@@ -9,9 +9,9 @@ class UrlBuilderNode(template.Node):
     urlbuilder is a template tag that takes a :py:class:`TableRowURL` object
     and an object to get data from, like a Participant or Connector.
     It builds a list of arguments from the args parameter as found in
-    :py:class:`TableRowURL`.  For each one, it checks if the argument matches a
-    property of the passed object, and will use that property.  Otherwise
-    it will just pass through the argument as is.
+    :py:class:`sheepdog_tables.column.ColumnURL`.  For each one, it checks 
+    if the argument matches a property of the passed object, and will use 
+    that property.  Otherwise it will just pass through the argument as is.
 
     The result is a URL, like /myapp/myobject/1/, generated at the end of
     the day, by django.core.urlresolvers.reverse
@@ -22,7 +22,7 @@ class UrlBuilderNode(template.Node):
 
         {% urlbuilder tablerowurl object %}
 
-    :param url: A :py:class:`TableRowURL` object or matching subclass
+    :param url: A :py:class:`sheepdog_tables.column.ColumnURL` object or matching subclass
     :param obj: A (normally) model backed object.
 
     """
