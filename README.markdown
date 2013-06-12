@@ -7,6 +7,34 @@ allows for simple CSV exporting via a CSV export view.
 The codebase is well documented, and each class should have a relevant
 docstring.
 
+## Installation
+
+pip install latest
+currenty need to add JS dependencies; we use bower:
+ - backbone (1.0.0, say)
+ - underscore (1.4.4, say)
+ - Lots of js dependencies.  Some subset of:
+
+```html
+
+    <script type="text/javascript" src="{% static "bower/jquery/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-collapse.js" %}"></script>
+    <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-dropdown.js" %}"></script>
+    <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-alert.js" %}"></script>
+    <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-tooltip.js" %}"></script>
+    <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-modal.js" %}"></script>
+    <script type="text/javascript" src="{% static "tables/js/jquery.ba-bbq.js" %}"></script>
+    <script type="text/javascript" src="{% static "bower/underscore/underscore.js" %}"></script>
+    <script type="text/javascript" src="{% static "bower/backbone/backbone.js" %}"></script>
+    <script type="text/coffeescript" src="{% static "tables/js/utils.coffee" %}"</script>
+    <script type="text/coffeescript" src="{% static "tables/js/tables.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "tables/js/pagination.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "tables/js/filtering.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "tables/js/sort_form.coffee" %}"></script>
+    <script type="text/coffeescript" src="{% static "tables/js/edittable.coffee" %}"></script>
+
+```
+
 ## Starting Points
 
 A few things should be noted for this API.  The primary mixin to add a table to
