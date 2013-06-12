@@ -199,7 +199,7 @@ class FilteredListView(MultipleObjectTemplateResponseMixin, BaseListView):
     propagate_filter_params = False
 
     _filter_form = None
-    _filter_keys = None
+    _filter_keys = {}
 
     def get_queryset(self):
         """

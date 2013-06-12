@@ -3,3 +3,4 @@ doc/_build/
 temp/
 dist/
 *.egg-info/
+*.log
