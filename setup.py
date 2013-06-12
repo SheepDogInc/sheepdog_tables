@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "sheepdog_tables",
-    version = "0.5",
+    version = "1.0",
     author = "Alex Hart, Adam Thurlow",
     author_email = "alex@sheepdoginc.ca, adam@sheepdoginc.ca",
     description = ("Easy to use tables API for Django"),
