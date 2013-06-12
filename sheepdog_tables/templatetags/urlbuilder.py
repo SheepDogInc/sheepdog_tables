@@ -3,40 +3,33 @@ from django.core.urlresolvers import reverse
 
 register = template.Library()
 
+"""
+urlbuilder is a template tag that takes a TableRowURL object
+and an object to get data from, like a Participant or Connector.
+It builds a list of arguments from the args parameter as found in
+TableRowURL.  For each one, it checks if the argument matches a
+property of the passed object, and will use that property.  Otherwise
+it will just pass through the argument as is.
 
+The result is a URL, like /myapp/myobject/1/, generated at the end of
+the day, by django.core.urlresolvers.reverse
+
+:params
+
+url - A TableRowURL object or matching subclass
+
+obj - A (normally) model backed object (like User, Participant, etc)
+
+Usage for this template tag are as follows:
+    {% urlbuilder tablerowurl object %}
+
+"""
 class UrlBuilderNode(template.Node):
-    """
-    urlbuilder is a template tag that takes a :py:class:`TableRowURL` object
-    and an object to get data from, like a Participant or Connector.
-    It builds a list of arguments from the args parameter as found in
-    :py:class:`sheepdog_tables.column.ColumnURL`.  For each one, it checks 
-    if the argument matches a property of the passed object, and will use 
-    that property.  Otherwise it will just pass through the argument as is.
-
-    The result is a URL, like /myapp/myobject/1/, generated at the end of
-    the day, by django.core.urlresolvers.reverse
-
-    Usage for this template tag are as follows:
-
-    .. code-block:: django
-
-        {% urlbuilder tablerowurl object %}
-
-    :param url: A :py:class:`sheepdog_tables.column.ColumnURL` object or matching subclass
-    :param obj: A (normally) model backed object.
-
-    """
     def __init__(self, url, obj):
         self.url = url
         self.obj = obj
 
     def render(self, context):
-        """
-        Render's a URL based off a given URL object and model object
-
-        :param context: The current template context
-        :return: The URL or ""
-        """
         try:
             url = context.get(self.url, None)
             obj = context.get(self.obj, None)
@@ -60,10 +53,6 @@ class UrlBuilderNode(template.Node):
 
 
 def urlbuilder(parser, token):
-    """
-    :param parser: Set for utility.
-    :param token: The passed token to render from.
-    """
     try:
         tag_name, url, obj = token.split_contents()
     except ValueError:

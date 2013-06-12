@@ -1,0 +1,24 @@
+{% extends 'tables/table.html' %}
+{% load get %}
+{% load urlbuilder %}
+{% load call %}
+
+{% block table_head %}
+<form action="" method="POST" class="table-form" id="edittable_{{ table.formset.prefix }}">
+    {% csrf_token %}
+    {{ table.formset.management_form }}     
+{% endblock %}
+
+{% block table_body %}
+    {% for obj in table.page_obj.object_list %}
+        {% with forloop.counter0 as row_index %}
+        {% with table.formset|get:row_index as row_form %}
+            {% include "tables/edittable_row.html" %}
+        {% endwith %}
+        {% endwith %}
+    {% endfor %}
+{% endblock %}
+
+{% block table_footer %}
+    </form> 
+{% endblock %}

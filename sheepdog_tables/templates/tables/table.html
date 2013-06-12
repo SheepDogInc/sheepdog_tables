@@ -2,6 +2,7 @@
 {% load urlbuilder %}
 {% load call %}
 {% if table.page_obj.object_list %}
+    {% block table_head %}{% endblock %}
     {% spaceless %}
         <table
             {% if table.table.table_attrs %}
@@ -17,32 +18,14 @@
         {% endfor %}
     </tr></thead>
     <tbody>
-        {% for obj in table.page_obj.object_list %}
-            <tr>
-                {% for field in table.table.table_sequence %}
-                    {% with table.table.table_columns|get:field as col %}
-                        {% spaceless %}
-                        <td>
-                            {% if col.is_linked %}
-                                {% call col get_url request as url %}
-                                <a href="{% urlbuilder url obj %}"
-                                    {% for a in url.attrs %}
-                                        {{ a }}="{{ url.attrs|get:a }}"
-                                    {% endfor %}
-                                >
-                            {% endif %}
-                            {% call col value obj %}
-                            {% if col.is_linked %}
-                                </a>
-                            {% endif %}
-                        </td>
-                        {% endspaceless %}
-                    {% endwith %}
-                {% endfor %}
-            </tr>
-        {% endfor %}
+        {% block table_body %}
+            {% for obj in table.page_obj.object_list %}
+                {% include "tables/table_row.html" %}
+            {% endfor %}
+        {% endblock %}
     </tbody>
     </table>
+    {% block table_footer %}{% endblock %}
     {% if table.page_obj and table.page_obj.has_other_pages %}
         {% with table.page_obj as page_obj %}
             {% include "tables/pagination_controls.html" %}

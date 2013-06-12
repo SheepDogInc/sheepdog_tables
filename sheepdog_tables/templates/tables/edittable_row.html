@@ -1,0 +1,47 @@
+{% load crispy_forms_field get urlbuilder call %} 
+
+<tr>
+    {% for field in table.table.table_sequence %}
+        {% with table.table.table_columns|get:field as col %}
+            {% spaceless %}
+            <td>
+                {% if forloop.first %}
+                    {% for hidden_field in row_form.hidden_fields %}
+                         {{ hidden_field }}
+                    {% endfor %}
+                    {{ row_form.non_field_errors }}
+                {% endif %}
+                {% if col.is_field %}
+                    {% with row_form|get:col.field as row_form_field %}
+                        <div class="field">
+                         {% if row_form_field.errors %}
+                        <a class="form-error" href="javascript:void(0)" 
+                            data-toggle="popover" 
+                            data-title="Form Error" 
+                            data-placement="left"
+                            data-content="{{ row_form_field.errors.as_text }}">
+                            <i class="icon-warning-sign"></i>
+                        </a> 
+                        {% endif %}
+                        {% crispy_field row_form_field %}
+                        </div>
+                    {% endwith %}
+                {% else %}
+                    {% if col.is_linked %}
+                        {% call col get_url request as url %}
+                        <a href="{% urlbuilder url obj %}"
+                            {% for a in url.attrs %}
+                                {{ a }}="{{ url.attrs|get:a }}"
+                            {% endfor %}
+                        >
+                    {% endif %}
+                    {% call col value obj %}
+                    {% if col.is_linked %}
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </td>
+            {% endspaceless %}
+        {% endwith %}
+    {% endfor %}
+</tr>

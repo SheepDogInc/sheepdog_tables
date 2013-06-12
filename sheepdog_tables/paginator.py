@@ -1,39 +1,41 @@
 from django.core.paginator import Paginator
 
+
 class NamespacedPaginator(Paginator):
-    """
-    Add simple namespacing to the default django Paginator and adding pagination helpers
-
-    :param object_list: A list of objects to be paginated.
-    :param per_page: Number of objects to allow per page.
-    :param orphans: The minimum number of items allowed on the last page,
-        defaults to zero.
-    :param allow_empty_first_page: Whether the first page is empty.  Can
-        trigger an EmptyPage error if False
-    :param namespace: The table namespace in context.
-    :param current_page: The current page in context.
 
     """
-    def __init__(self, object_list, per_page, orphans=0, allow_empty_first_page=True, namespace=None, current_page=1):
-        super(NamespacedPaginator, self).__init__(object_list, per_page, orphans, allow_empty_first_page)
+        Add simple namespacing to the default django Paginator
+        and adding pagination helpers
+    """
+    def __init__(self, object_list, per_page, orphans=0,
+                 allow_empty_first_page=True, namespace=None, current_page=1):
+
+        super(NamespacedPaginator, self).__init__(
+            object_list, per_page, orphans, allow_empty_first_page)
+
         self.ns = namespace
         self.current_page = int(current_page)
+
     def pages(self):
         """
-        Returns a list of pages that the template can understand to render
+        returns a list of pages that the template can understand to render
         itself correctly.
-
-        :returns: The mentioned list of pages.
         """
         all_pages = self._get_page_range()
         if len(all_pages) <= 10:
             return all_pages
         else:
-            start = max(self.current_page - 4 ,1)
+            start = max(self.current_page - 4, 1)
             end = min(start + 8, len(all_pages))
             if start == 1:
-                return all_pages[0:end +1] + [None]
+                return all_pages[0:end + 1] + [None]
             elif end == len(all_pages):
                 return [None] + all_pages[-9:]
             else:
-                return [None] + all_pages[start-1:end] + [None]
+                return [None] + all_pages[start - 1:end] + [None]
+
+
+class MockPage(object):
+
+    def __init__(self, object_list):
+        self.object_list = object_list
