@@ -144,7 +144,7 @@ class BaseSortableFilterSet(django_filters.FilterSet):
                                     name='submit', value=ugettext('Apply'),
                                     css_class='btn btn-primary '
                                               ' filter-buttons'),
-                                css_class="filter-btns btn-group"
+                                css_class="filter-btns"
                             ),
                             css_class="filter-btns-row btn-toolbar",
                         ),
