@@ -45,10 +45,12 @@ class CSVExportView(View):
         pks = request.POST.get('id', None)
 
         if self.redirect is None:
-            raise ImproperlyConfigured("CSVExportView Redirect Attribute not set")
+            raise ImproperlyConfigured("CSVExportView redirect attribute not "
+                                       "set")
 
-        if pks is None:
-            return redirect(self.redirect)
+        if not pks:
+            url = self.redirect() if callable(self.redirect) else self.redirect
+            return redirect(url)
 
         pks = pks.split(',')
 
