@@ -31,7 +31,7 @@ class TablesMixin(object):
     Therefore, you should utilize a with statement in your template
     for proper rendering, something like:
 
-        {% with my_table as table %}
+        {% with tables.my_table as table %}
             {% include "general/table.html %}
         {% endwith %}
 
