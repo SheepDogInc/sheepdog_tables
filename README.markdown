@@ -26,7 +26,7 @@ currenty need to add JS dependencies; we use bower:
     <script type="text/javascript" src="{% static "tables/js/jquery.ba-bbq.js" %}"></script>
     <script type="text/javascript" src="{% static "bower/underscore/underscore.js" %}"></script>
     <script type="text/javascript" src="{% static "bower/backbone/backbone.js" %}"></script>
-    <script type="text/coffeescript" src="{% static "tables/js/utils.coffee" %}"</script>
+    <script type="text/coffeescript" src="{% static "tables/js/utils.coffee" %}"></script>
     <script type="text/coffeescript" src="{% static "tables/js/tables.coffee" %}"></script>
     <script type="text/coffeescript" src="{% static "tables/js/pagination.coffee" %}"></script>
     <script type="text/coffeescript" src="{% static "tables/js/filtering.coffee" %}"></script>
