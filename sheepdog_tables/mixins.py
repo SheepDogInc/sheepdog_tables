@@ -215,9 +215,6 @@ class FilteredListView(MultipleObjectTemplateResponseMixin, BaseListView):
             self._filter_keys = f.filters.keys()
             qs = f.qs
 
-        # Set the (inherited) queryset, so that subsequent calls to
-        # get_queryset (if any) retrieve the filtered queryset.
-        self.queryset = qs
         return qs
 
     def get_context_data(self, **kwargs):
