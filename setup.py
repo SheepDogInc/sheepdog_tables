@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
 
+import sheepdog_tables
+
+
 setup(
     name = "sheepdog_tables",
-    version = "1.0.1",
+    version = sheepdog_tables.__version__,
     author = "Alex Hart, Adam Thurlow",
     author_email = "alex@sheepdoginc.ca, adam@sheepdoginc.ca",
     description = ("Easy to use tables API for Django"),
