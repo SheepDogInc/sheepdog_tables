@@ -1,5 +1,6 @@
 from django import template
 from django.core.urlresolvers import reverse
+from django.utils.html import conditional_escape
 
 register = template.Library()
 
@@ -26,7 +27,7 @@ class CallNode(template.Node):
             obj = context.get(self.obj, None)
 
             args = [context.get(arg, arg) for arg in self.args]
-            result = getattr(obj, self.callable)(*args)
+            result = conditional_escape(getattr(obj, self.callable)(*args))
 
             if self.var:
                 context[self.var] = result
