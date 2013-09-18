@@ -12,6 +12,7 @@ from inspect import getmembers
 
 from .forms import EdittableSubmitForm
 from .paginator import NamespacedPaginator, MockPage
+from django.core.paginator import EmptyPage
 from .table import Table
 
 
@@ -63,7 +64,10 @@ class TablesMixin(object):
                 paginator = NamespacedPaginator(
                     qs, table.table_page_limit, namespace=table_key,
                     current_page=p)
-                page = paginator.page(p)
+                try:
+                    page = paginator.page(p)
+                except EmptyPage:
+                    page = paginator.page(paginator.num_pages)
             else:
                 page = MockPage(qs)
 
