@@ -1,10 +1,13 @@
 import json
 import re
+import csv
 
 from django.http import QueryDict, HttpResponseRedirect
 from django.utils.safestring import mark_safe
 from django.views.generic.list import (MultipleObjectTemplateResponseMixin,
                                        BaseListView)
+from django.http import HttpResponse
+
 from inspect import getmembers
 
 from .forms import EdittableSubmitForm
@@ -289,3 +292,40 @@ class SortFilterMixin(object):
         sort_data = {'default': default, 'pairs': pairs}
         ctx.update({'sort_data': mark_safe(json.dumps(sort_data))})
         return ctx
+
+
+class CSVExportView(FilteredListView):
+    filename = None
+
+    def get_filename(self):
+        return self.filename
+
+    def get(self, request, *args, **kwargs):
+
+        response = HttpResponse(mimetype='text/csv')
+        response['Content-Disposition'] = ('attachment; filename=%s'
+                                           % self.get_filename())
+        writer = csv.writer(response)
+
+        qs = self.get_queryset()
+        qs = self.table.filter(qs)
+        objects = self.annotate(qs, request)
+        writer.writerow(self.table.headers())
+        self.export_objects_to_csv(writer, objects)
+        return response
+
+    def export_object_to_csv(self, writer, obj):
+        cols = []
+        for key in self.table.table_sequence:
+            value = self.table.table_columns[key].csv_value(obj)
+            cols.append(value.encode('utf8', 'ignore')
+                        if isinstance(value, unicode) else value)
+
+        writer.writerow(cols)
+
+    def export_objects_to_csv(self, writer, objects):
+        for obj in objects:
+            self.export_object_to_csv(writer, obj)
+
+    def annotate(self, objects, request=None):
+        return objects

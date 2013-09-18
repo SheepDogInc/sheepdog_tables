@@ -1,9 +1,15 @@
 import csv
+import logging
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import View
 from sheepdog_tables.forms import CSVExportForm
 from django.core.exceptions import ImproperlyConfigured
+
+logger = logging.getLogger(__name__)
+logger.warning("sheepdog_tables.views.CSVExportView is deprecated"
+               " in favor of sheepdog_tables.views.CSVExportView")
+
 
 class CSVExportView(View):
     """
