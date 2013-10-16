@@ -1,6 +1,6 @@
 {% load i18n %}
-<div class="pagination pagination-centered">
-    <ul>
+<div class="pagination pagination-centered"> <!-- Bootstrap 2 -->
+    <ul class="pagination center"> <!-- Bootstrap 3 -->
         {% if page_obj.has_previous %}
             <li class="prev">
                 <a href="javascript:void(0)" class="table-pager" data-ns="{{ page_obj.paginator.ns }}" data-page="{{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
