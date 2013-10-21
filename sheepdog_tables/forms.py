@@ -1,6 +1,9 @@
+import logging
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, HTML, Div, Submit
+
+logger = logging.getLogger("sheepdog_tables")
 
 
 class CSVExportForm(forms.Form):
@@ -11,6 +14,9 @@ class EditTableSubmitForm(forms.Form):
 
     def __init__(self, table, table_key, *args, **kwargs):
         self.table = table
+        if not any([c.editable for c in self.table.table_columns.values()]):
+            print "Warning: Editable table has no editable columns"
+            logger.warning("Editable table has no editable columns")
         super(EditTableSubmitForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'POST'

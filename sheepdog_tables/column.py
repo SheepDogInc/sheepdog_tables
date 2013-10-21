@@ -61,7 +61,8 @@ class Column(object):
             were explicitly set
     """
     def __init__(self, field=None, header=None, accessor=None,
-                annotation=None, default=None, url_class=None):
+                 annotation=None, default=None, url_class=None,
+                 editable=False):
         self.field = field
         self.header = header
         self.accessor = accessor
@@ -69,6 +70,7 @@ class Column(object):
         self.default = '---' if default is None else default
         self.url_class = url_class
         self.key = None
+        self.editable = editable
 
     def is_linked(self):
         return self.url_class is not None
@@ -124,10 +126,6 @@ class DictColumn(Column):
 
 
 class FieldColumn(Column):
-    """
-    FieldColumn is simply for tagging columns as being available to replace
-    with form fields. This is mostly for convention, rather than adding
-    functionality
-    """
-
-    is_field = True
+    def __init__(self, *args, **kwargs):
+        raise Exception("FieldColumn is no longer used."
+                        " Use Column(editable=True)")
