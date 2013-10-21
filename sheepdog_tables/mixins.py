@@ -10,7 +10,7 @@ from django.http import HttpResponse
 
 from inspect import getmembers
 
-from .forms import EdittableSubmitForm
+from .forms import EditTableSubmitForm
 from .paginator import NamespacedPaginator, MockPage
 from django.core.paginator import EmptyPage
 from .table import Table
@@ -106,7 +106,7 @@ class TablesMixin(object):
         return self.get_queryset().all()
 
 
-class EdittablesMixin(TablesMixin):
+class EditTablesMixin(TablesMixin):
 
     """
     Enhance the base Tables Mixin to work with formsets and modelforms in
@@ -128,13 +128,13 @@ class EdittablesMixin(TablesMixin):
         Optionally pass in formsets as a keyword argument to pass in your
         own formset (i.e. when it contains validation errors, etc)
         """
-        ctx = super(EdittablesMixin, self).get_context_data(**kwargs)
+        ctx = super(EditTablesMixin, self).get_context_data(**kwargs)
 
         formsets = kwargs.pop('formsets', self.get_formsets())
 
         for k, tbl_entry in ctx['tables'].items():
             tbl_entry['formset'] = formsets[k]
-            tbl_entry['submit_form'] = EdittableSubmitForm(
+            tbl_entry['submit_form'] = EditTableSubmitForm(
                 table=self.get_table(k), table_key=k)
         return ctx
 

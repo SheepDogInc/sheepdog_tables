@@ -7,11 +7,11 @@ class CSVExportForm(forms.Form):
     id = forms.CharField(widget=forms.HiddenInput)
 
 
-class EdittableSubmitForm(forms.Form):
+class EditTableSubmitForm(forms.Form):
 
     def __init__(self, table, table_key, *args, **kwargs):
         self.table = table
-        super(EdittableSubmitForm, self).__init__(*args, **kwargs)
+        super(EditTableSubmitForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
         self.helper.form_class = 'form-horizontal'

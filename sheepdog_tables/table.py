@@ -76,7 +76,7 @@ class Table(object):
                 for h in self.table_sequence]
 
 
-class Edittable(Table):
+class EditTable(Table):
     """
     The only enhancements required to the Table data structure is the
     addition of the `table_form` and `table_formset` which are used to bind
@@ -87,7 +87,7 @@ class Edittable(Table):
 
     def __init__(self, *args, **kwargs):
 
-        super(Edittable, self).__init__(*args, **kwargs)
+        super(EditTable, self).__init__(*args, **kwargs)
 
         # build our own formset class with some strict requirements around no
         # deletion, ordering and maxes.
