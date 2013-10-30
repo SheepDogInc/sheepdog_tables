@@ -298,24 +298,31 @@ class SortFilterMixin(object):
         return ctx
 
 
-class CSVExportView(FilteredListView):
-    filename = None
-
-    def get_filename(self):
-        return self.filename
+class CSVTableMixin(object):
+    """
+    This is a proposed replacement for Sheepdog Tables CSV-generating
+    mechanism.  Issues:
+    - How to decide which table to deliver.  I hardwired "main_table".
+    - Should confirm filtering works and pagination ignored.
+    """
+    filename = 'table.csv'
+    table = None
 
     def get(self, request, *args, **kwargs):
+        self.table = self.get_table('main_table')
 
         response = HttpResponse(mimetype='text/csv')
         response['Content-Disposition'] = ('attachment; filename=%s'
-                                           % self.get_filename())
+                                           % self.filename)
+
         writer = csv.writer(response)
 
-        qs = self.get_queryset()
-        qs = self.table.filter(qs)
-        objects = self.annotate(qs, request)
+        objects = self.get_queryset()
+        objects = self.annotate(objects, request)
+
         writer.writerow(self.table.headers())
         self.export_objects_to_csv(writer, objects)
+
         return response
 
     def export_object_to_csv(self, writer, obj):
@@ -324,7 +331,6 @@ class CSVExportView(FilteredListView):
             value = self.table.table_columns[key].csv_value(obj)
             cols.append(value.encode('utf8', 'ignore')
                         if isinstance(value, unicode) else value)
-
         writer.writerow(cols)
 
     def export_objects_to_csv(self, writer, objects):
