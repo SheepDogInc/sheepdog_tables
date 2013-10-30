@@ -16,7 +16,6 @@ class EditTableSubmitForm(forms.Form):
         self.table = table
         if not any([c.editable for c in self.table.table_columns.values()]):
             print "Warning: Editable table has no editable columns"
-            logger.warning("Editable table has no editable columns")
         super(EditTableSubmitForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
