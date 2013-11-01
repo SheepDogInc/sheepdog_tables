@@ -11,7 +11,7 @@
                     {% endfor %}
                     {{ row_form.non_field_errors }}
                 {% endif %}
-                {% if col.is_field %}
+                {% if col.editable %}
                     {% with row_form|get:col.field as row_form_field %}
                         <div class="field">
                          {% if row_form_field.errors %}
