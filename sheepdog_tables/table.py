@@ -5,7 +5,7 @@ from django.forms.models import ModelForm, BaseModelFormSet
 from django.forms.formsets import formset_factory
 from django.utils.translation import ugettext_lazy as _
 
-from .column import Column
+from .column import Column, ASC, DESC
 
 
 class Table(object):
@@ -80,8 +80,8 @@ class Table(object):
                 for h in self.table_sequence]
 
     def parse_sort(self, sortstring):
-        direction = 'desc' if sortstring[0] == '-' else 'asc'
-        field = sortstring if direction == 'asc' else sortstring[1:]
+        direction = DESC if sortstring[0] == '-' else ASC
+        field = sortstring if direction == ASC else sortstring[1:]
         return field, direction
 
     def sort(self, queryset, sort_string):

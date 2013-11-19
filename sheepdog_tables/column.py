@@ -1,3 +1,6 @@
+ASC = 'asc'
+DESC = 'desc'
+
 class ColumnURL(object):
     """
     Represents the url a column's data should point to.
@@ -120,7 +123,7 @@ class Column(object):
         return self.sort_field or self.accessor or self.field
 
     def render_sort(self, direction):
-        return (self.render_sort_asc() if direction == 'asc'
+        return (self.render_sort_asc() if direction == ASC
                 else self.render_sort_desc())
 
     def render_sort_asc(self):
