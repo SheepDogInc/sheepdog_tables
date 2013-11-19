@@ -50,6 +50,8 @@ class Column(object):
 
     default - What to display if the data is NULL.
 
+    css_class - A class name to apply to each TD in the table.
+
     url_class - The ColumnURL class for the field.
 
     key - Not set by the user.  Basically, whatever we name the
@@ -61,13 +63,14 @@ class Column(object):
             were explicitly set
     """
     def __init__(self, field=None, header=None, accessor=None,
-                 annotation=None, default=None, url_class=None,
-                 editable=False):
+                 annotation=None, default=None, css_class=None,
+                 url_class=None, editable=False):
         self.field = field
         self.header = header
         self.accessor = accessor
         self.annotation = annotation
         self.default = '---' if default is None else default
+        self.css_class = css_class
         self.url_class = url_class
         self.key = None
         self.editable = editable
