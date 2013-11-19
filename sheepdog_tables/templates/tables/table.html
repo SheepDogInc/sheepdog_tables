@@ -18,12 +18,12 @@
                 {% if column.sortable %}
                 <div class="table-sorting">
                     {% if not table.applied_sort == column.render_sort_asc %}
-                    <a href="javascript:void(0);" data-ns="{{ table.ns }}" data-sort="{{ column.render_sort_asc }}" class="table-sorter">
+                    <a href="javascript:void(0);" data-ns="{{ table.namespace }}" data-sort="{{ column.render_sort_asc }}" class="table-sorter">
                         <i class="icon-chevron-up"></i>
                     </a>
                     {% endif %}      
                     {% if not table.applied_sort == column.render_sort_desc %}
-                    <a href="javascript:void(0);" data-ns="{{ table.ns }}" data-sort="{{ column.render_sort_desc}}" class="table-sorter">
+                    <a href="javascript:void(0);" data-ns="{{ table.namespace }}" data-sort="{{ column.render_sort_desc}}" class="table-sorter">
                         <i class="icon-chevron-down"></i>
                     </a>
                     {% endif %}

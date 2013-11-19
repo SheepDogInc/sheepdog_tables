@@ -92,7 +92,7 @@ class TablesMixin(object):
         # Note, l(k) is the table in context
         for k in table_keys:
             table = dict()
-            table['ns'] = k
+            table['namespace'] = k
             table['table'] = self.get_table(k)
             table['page_obj'] = self.get_page_data(k)
             table['applied_sort'] = self.get_current_sort(k)
