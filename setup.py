@@ -4,7 +4,7 @@ import sheepdog_tables
 
 
 setup(
-    name="sheepdog_tables",
+    name="sheepdog-tables",
     version=sheepdog_tables.__version__,
     author="Alex Hart, Adam Thurlow, Karl Leuschen",
     author_email="exallium@gmail.com, adam@sheepdog.com, karl@sheepdog.com",
@@ -21,11 +21,8 @@ setup(
         "Framework :: Django",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-        "Programming Language :: CoffeeScript",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
-        "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
 )
