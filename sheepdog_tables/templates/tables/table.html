@@ -13,8 +13,23 @@
         >
     {% endspaceless %}
     <thead><tr>
-        {% for header in table.table.headers %}
-            <th>{{ header }}</th>
+        {% for column in table.table.columns %}
+            <th>{{ column.header }}
+                {% if column.sortable %}
+                <div class="table-sorting">
+                    {% if not table.applied_sort == column.render_sort_asc %}
+                    <a href="javascript:void(0);" data-ns="{{ table.ns }}" data-sort="{{ column.render_sort_asc }}" class="table-sorter">
+                        <i class="icon-chevron-up"></i>
+                    </a>
+                    {% endif %}      
+                    {% if not table.applied_sort == column.render_sort_desc %}
+                    <a href="javascript:void(0);" data-ns="{{ table.ns }}" data-sort="{{ column.render_sort_desc}}" class="table-sorter">
+                        <i class="icon-chevron-down"></i>
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </th>
         {% endfor %}
     </tr></thead>
     <tbody>

@@ -53,12 +53,19 @@ class TablesMixin(object):
     def get_current_page(self, table_key):
         return self.request.GET.get('%s-page' % table_key, 1)
 
+    def get_current_sort(self, table_key):
+        return self.request.GET.get('%s-sort' % table_key, None)
+
     def get_page_data(self, table_key):
         if table_key not in self.table_pages.keys():
 
             table = self.get_table(table_key)
             filtered_qs = table.filter(self.get_table_qs(table_key).all())
-            qs = table.annotate(filtered_qs)
+            sorted_qs = table.sort(
+                filtered_qs,
+                self.get_current_sort(table_key))
+
+            qs = table.annotate(sorted_qs)
             p = self.get_current_page(table_key)
             if table.is_paged:
                 paginator = NamespacedPaginator(
@@ -85,8 +92,10 @@ class TablesMixin(object):
         # Note, l(k) is the table in context
         for k in table_keys:
             table = dict()
+            table['ns'] = k
             table['table'] = self.get_table(k)
             table['page_obj'] = self.get_page_data(k)
+            table['applied_sort'] = self.get_current_sort(k)
             tables.update({k: table})
 
         ctx.update({'tables': tables})
