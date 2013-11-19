@@ -65,7 +65,9 @@ class Column(object):
     editable - Whether the column should render a field from a supplied
             formset.
 
-    sortable - Whether or not the field should be sortable.
+    sortable - Whether or not the field should be sortable. The lookup chain
+            for the sorting field is `sort_field` -> `accessor` -> `field`,
+            so a custom accessor is followed if applicable
 
     sort_field - An optional field to pass that should map directly to the
             field name that the django ORM expects, if you're making use of
