@@ -2,6 +2,9 @@ from setuptools import setup, find_packages
 
 import sheepdog_tables
 
+f = open('README.rst')
+readme = f.read()
+f.close()
 
 setup(
     name="sheepdog-tables",
@@ -13,7 +16,7 @@ setup(
     keywords = "tables",
     url = "https://github.com/SheepDogInc/sheepdog_tables",
     packages=find_packages(),
-    long_description="",
+    long_description=readme,
     include_package_data=True,
     classifiers=
     [
@@ -21,8 +24,7 @@ setup(
         "Framework :: Django",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2.6",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
 )
