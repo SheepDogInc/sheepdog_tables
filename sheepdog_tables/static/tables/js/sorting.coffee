@@ -1,9 +1,9 @@
 ($ document).ready ->
   _deParamd = $.deparam.querystring true
-  ($ ".pagination a.table-pager").on "click", (ev) ->
+  ($ "a.table-sorter").on "click", (ev) ->
     $el = $ ev.currentTarget
     urlNamespace = $el.data 'ns'
-    _deParamd[urlNamespace + '-page'] = $el.data 'page'
+    _deParamd[urlNamespace + '-sort'] = $el.data 'sort'
     document.location.search = "?" + ($.param _deParamd, true)
     false
   @

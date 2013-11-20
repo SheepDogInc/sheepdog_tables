@@ -1,3 +1,6 @@
+ASC = 'asc'
+DESC = 'desc'
+
 class ColumnURL(object):
     """
     Represents the url a column's data should point to.
@@ -61,10 +64,22 @@ class Column(object):
             a column declared ``field = Column()`` will have
             a field ``field`` and a header ``Field`` as neither
             were explicitly set
+
+    editable - Whether the column should render a field from a supplied
+            formset.
+
+    sortable - Whether or not the field should be sortable. The lookup chain
+            for the sorting field is `sort_field` -> `accessor` -> `field`,
+            so a custom accessor is followed if applicable
+
+    sort_field - An optional field to pass that should map directly to the
+            field name that the django ORM expects, if you're making use of
+            some special case accessor to do rendering.
     """
     def __init__(self, field=None, header=None, accessor=None,
                  annotation=None, default=None, css_class=None,
-                 url_class=None, editable=False):
+                 url_class=None, editable=False, sortable=False,
+                 sort_field=None):
         self.field = field
         self.header = header
         self.accessor = accessor
@@ -74,6 +89,8 @@ class Column(object):
         self.url_class = url_class
         self.key = None
         self.editable = editable
+        self.sortable = sortable
+        self.sort_field = sort_field
 
     def is_linked(self):
         return self.url_class is not None
@@ -101,6 +118,19 @@ class Column(object):
                 fn = getattr(object, a)
                 object = fn() if callable(fn) else fn
         return object or self.default
+
+    def get_sort_field(self):
+        return self.sort_field or self.accessor or self.field
+
+    def render_sort(self, direction):
+        return (self.render_sort_asc() if direction == ASC
+                else self.render_sort_desc())
+
+    def render_sort_asc(self):
+        return self.get_sort_field()
+
+    def render_sort_desc(self):
+        return '-%s' % self.render_sort_asc()
 
 
 class DictColumn(Column):

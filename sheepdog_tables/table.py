@@ -5,7 +5,7 @@ from django.forms.models import ModelForm, BaseModelFormSet
 from django.forms.formsets import formset_factory
 from django.utils.translation import ugettext_lazy as _
 
-from .column import Column
+from .column import Column, ASC, DESC
 
 
 class Table(object):
@@ -40,7 +40,8 @@ class Table(object):
 
     def __init__(self, is_paged=True):
         if not self.table_sequence:
-            raise ImproperlyConfigured('%s does not provide a table_sequence.' % self.__class__.__name__)
+            raise ImproperlyConfigured('%s does not provide a table_sequence.'
+                                       % self.__class__.__name__)
         self.table_columns = {}
         self.is_paged = is_paged
         self.gen_columns()
@@ -71,9 +72,33 @@ class Table(object):
 
         return queryset
 
+    def columns(self):
+        return [self.table_columns[h] for h in self.table_sequence]
+
     def headers(self):
         return [self.table_columns[h].header or h.title()
                 for h in self.table_sequence]
+
+    def parse_sort(self, sortstring):
+        direction = DESC if sortstring[0] == '-' else ASC
+        field = sortstring if direction == ASC else sortstring[1:]
+        return field, direction
+
+    def sort(self, queryset, sort_string):
+        if not sort_string:
+            return queryset
+
+        sort_field, direction = self.parse_sort(sort_string)
+        sorting_col = None
+        for col in self.columns():
+            if col.sortable and col.get_sort_field() == sort_field:
+                sorting_col = col
+                break
+
+        if not sorting_col:
+            return queryset
+        else:
+            return queryset.order_by(sorting_col.render_sort(direction))
 
 
 class EditTable(Table):
