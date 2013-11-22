@@ -20,19 +20,11 @@ dependencies. Some subset of:
 
 
         <script type="text/javascript" src="{% static "bower/jquery/jquery.min.js" %}"></script>
-        <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-collapse.js" %}"></script>
-        <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-dropdown.js" %}"></script>
-        <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-alert.js" %}"></script>
-        <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-tooltip.js" %}"></script>
-        <script type="text/javascript" src="{% static "bower/bootstrap/js/bootstrap-modal.js" %}"></script>
         <script type="text/javascript" src="{% static "tables/js/jquery.ba-bbq.js" %}"></script>
         <script type="text/javascript" src="{% static "bower/underscore/underscore.js" %}"></script>
         <script type="text/javascript" src="{% static "bower/backbone/backbone.js" %}"></script>
-        <script type="text/coffeescript" src="{% static "tables/js/utils.coffee" %}"></script>
-        <script type="text/coffeescript" src="{% static "tables/js/tables.coffee" %}"></script>
-        <script type="text/coffeescript" src="{% static "tables/js/pagination.coffee" %}"></script>
         <script type="text/coffeescript" src="{% static "tables/js/filtering.coffee" %}"></script>
-        <script type="text/coffeescript" src="{% static "tables/js/edittable.coffee" %}"></script>
+        <script type="text/coffeescript" src="{% static "tables/js/binding.coffee" %}"></script>
 
 
 Starting Points
