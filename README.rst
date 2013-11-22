@@ -32,7 +32,6 @@ dependencies. Some subset of:
         <script type="text/coffeescript" src="{% static "tables/js/tables.coffee" %}"></script>
         <script type="text/coffeescript" src="{% static "tables/js/pagination.coffee" %}"></script>
         <script type="text/coffeescript" src="{% static "tables/js/filtering.coffee" %}"></script>
-        <script type="text/coffeescript" src="{% static "tables/js/sort_form.coffee" %}"></script>
         <script type="text/coffeescript" src="{% static "tables/js/edittable.coffee" %}"></script>
 
 

@@ -10,8 +10,6 @@ except:
 
 if _LOAD_PACKAGES:
     from mixins import (TablesMixin, EditTablesMixin, FilteredListView,
-                        SortFilterMixin, CSVTableMixin)
+                        CSVTableMixin)
     from column import ColumnURL, Column, DictColumn, FieldColumn
-    from filters import (SortChoice, SortChoiceField, SortChoiceFilter,
-                         BaseSortableFilterSet)
     from table import Table, EditTable

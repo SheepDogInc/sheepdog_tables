@@ -273,40 +273,6 @@ SORT_TYPES = {
 }
 
 
-class SortFilterMixin(object):
-
-    """
-    SortFilterMixin - Add contextual data to allow for proper
-    population of srton select widget.
-
-    Things to note:
-    Using this mixin requires the following things:
-    1) The class this is applied to is or subclasses FilteredListView
-    2) srtby and srton exist as filters in your filterset, due to how
-        the form is rendered, and how the JS sees it.
-    3) In order for the list to update itself as necessary, sort_form.coffee
-        should be included in the template, and the SortController class
-        should be initialized with {{ sort_data }}
-    """
-    def get_context_data(self, **kwargs):
-        ctx = super(SortFilterMixin, self).get_context_data(**kwargs)
-        if not self._filter_keys:
-            return ctx
-
-        fields = self._filter_form.fields['srtby']._choices
-        filterables = [field for (field, label) in fields]
-        pairs = {}
-        for f in filterables:
-            alpha = f not in SORT_TYPES
-            pairs[f] = SORT_TYPES[f] if not alpha else 'alpha'
-
-        default = self._filter_form.fields[
-            'srtby'].sort_default or filterables[0]
-        sort_data = {'default': default, 'pairs': pairs}
-        ctx.update({'sort_data': mark_safe(json.dumps(sort_data))})
-        return ctx
-
-
 class CSVTableMixin(object):
     """
     This is a proposed replacement for Sheepdog Tables CSV-generating
