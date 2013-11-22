@@ -74,7 +74,7 @@ class TablesMixin(object):
 
         table_key = self.request.GET.get('namespace', 'main_table')
 
-        response = HttpResponse(mimetype='text/csv')
+        response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = (
             'attachment; filename=%s' % self.get_csv_filename(table_key))
 
