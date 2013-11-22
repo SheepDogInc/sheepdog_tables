@@ -6,10 +6,6 @@ from crispy_forms.layout import Layout, HTML, Div, Submit
 logger = logging.getLogger("sheepdog_tables")
 
 
-class CSVExportForm(forms.Form):
-    id = forms.CharField(widget=forms.HiddenInput)
-
-
 class EditTableSubmitForm(forms.Form):
 
     def __init__(self, table, table_key, *args, **kwargs):
