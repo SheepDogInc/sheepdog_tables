@@ -1,8 +1,10 @@
+import csv
 import json
 import re
-import csv
+from functools import update_wrapper
 
 from django.http import QueryDict, HttpResponseRedirect
+from django.utils.decorators import classonlymethod
 from django.utils.safestring import mark_safe
 from django.views.generic.list import (MultipleObjectTemplateResponseMixin,
                                        BaseListView)
@@ -40,9 +42,64 @@ class TablesMixin(object):
         {% endwith %}
 
     """
+
     def dispatch(self, *args, **kwargs):
         self.table_pages = {}
+
+        if kwargs.pop('__as_csv', False):
+            return self.csv(*args, **kwargs)
+
         return super(TablesMixin, self).dispatch(*args, **kwargs)
+
+    @classonlymethod
+    def as_csv(cls, **initkwargs):
+        def csv_view(request, *args, **kwargs):
+            kwargs['__as_csv'] = True
+            self = cls(**initkwargs)
+            self.request = request
+            self.args = args
+            self.kwargs = kwargs
+
+            return self.dispatch(request, *args, **kwargs)
+
+        update_wrapper(csv_view, cls, updated=())
+        update_wrapper(csv_view, cls.dispatch, assigned=())
+        return csv_view
+
+    def csv(self, *args, **kwargs):
+        """
+        CSV Renderer for a table view. Exports the view contents as a CSV
+        using the same internals as a standard view.
+        """
+
+        table_key = self.request.GET.get('namespace', 'main_table')
+
+        response = HttpResponse(mimetype='text/csv')
+        response['Content-Disposition'] = (
+            'attachment; filename=%s' % self.get_csv_filename(table_key))
+
+        writer = csv.writer(response)
+        table = self.get_table(table_key)
+        writer.writerow(table.headers())
+
+        filtered_qs = table.filter(self.get_table_qs(table_key).all())
+        qs = table.annotate(filtered_qs)
+
+        for obj in qs:
+            writer.writerow(self.prepare_obj_for_csv(table, obj))
+
+        return response
+
+    def get_csv_filename(self, table_key=None):
+        return '%s-export.csv' % (table_key or 'table')
+
+    def prepare_obj_for_csv(self, table, obj):
+        cols = []
+        for key in table.table_sequence:
+            value = table.table_columns[key].csv_value(obj)
+            cols.append(value.encode('utf8', 'ignore')
+                        if isinstance(value, unicode) else value)
+        return cols
 
     def get_table_keys(self):
         return [k for k, v in getmembers(self) if isinstance(v, Table)]
@@ -306,45 +363,3 @@ class SortFilterMixin(object):
         ctx.update({'sort_data': mark_safe(json.dumps(sort_data))})
         return ctx
 
-
-class CSVTableMixin(object):
-    """
-    This is a proposed replacement for Sheepdog Tables CSV-generating
-    mechanism.  Issues:
-    - How to decide which table to deliver.  I hardwired "main_table".
-    - Should confirm filtering works and pagination ignored.
-    """
-    filename = 'table.csv'
-    table = None
-
-    def get(self, request, *args, **kwargs):
-        self.table = self.get_table('main_table')
-
-        response = HttpResponse(mimetype='text/csv')
-        response['Content-Disposition'] = ('attachment; filename=%s'
-                                           % self.filename)
-
-        writer = csv.writer(response)
-
-        objects = self.get_queryset()
-        objects = self.annotate(objects, request)
-
-        writer.writerow(self.table.headers())
-        self.export_objects_to_csv(writer, objects)
-
-        return response
-
-    def export_object_to_csv(self, writer, obj):
-        cols = []
-        for key in self.table.table_sequence:
-            value = self.table.table_columns[key].csv_value(obj)
-            cols.append(value.encode('utf8', 'ignore')
-                        if isinstance(value, unicode) else value)
-        writer.writerow(cols)
-
-    def export_objects_to_csv(self, writer, objects):
-        for obj in objects:
-            self.export_object_to_csv(writer, obj)
-
-    def annotate(self, objects, request=None):
-        return objects
