@@ -1,3 +1,23 @@
+1.2.0
+	* Changed the method of getting a CSV from a view binding to it's own url,
+	but re-using the table view. See
+	github.com/SheepDogInc/sheepdog_tables/pull/21 for a simple
+	example.
+	* Remove old sort form functionality completely.
+	* Removed duplicated setup.py in sheepdog_tables app
+	* Consolidated coffeescript into `binding.coffee` for the simple event
+	bindings that make the JS widgets functional.
+
+1.1.0
+	* Added sorting within a table by clicking on it's header.
+	* Converted documentation to RST
+	* Sort forms are deprecated and will be removed.
+
+1.0.6
+	* Add column custom css classes via the `css_class` keyword arg when
+	constructing a Column.
+	* Uploaded to pypi
+
 2013-10-21  David Wolfe <david.wolfe@sheepdog.com>
 
     * Renamed Edittables* => EditTables* for all *
