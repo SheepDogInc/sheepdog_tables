@@ -9,7 +9,6 @@ except:
     _LOAD_PACKAGES = False
 
 if _LOAD_PACKAGES:
-    from mixins import (TablesMixin, EditTablesMixin, FilteredListView,
-                        CSVTableMixin)
+    from mixins import TablesMixin, EditTablesMixin, FilteredListView
     from column import ColumnURL, Column, DictColumn, FieldColumn
     from table import Table, EditTable
