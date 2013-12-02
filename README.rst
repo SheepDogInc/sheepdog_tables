@@ -12,19 +12,49 @@ docstring.
 Installation
 ------------
 
-pip install latest currenty need to add JS dependencies; we use bower: -
-backbone (1.0.0, say) - underscore (1.4.4, say) - Lots of js
-dependencies. Some subset of:
+Install the python package using pip
+
+.. code:: bash
+
+    $ pip install sheepdog-tables
+
+Install javascript dependencies
+
+Example Bower configuration with supported versions of javascript dependencies. 
+
+.. code:: javascript
+
+    {
+        "name": "my_project",
+        "version": "0.0.0",
+        "dependencies": {
+            "bootstrap": "3.0.1",
+            "backbone": "1.0.0",
+            "underscore": "1.4.4"
+        }
+    }
+            
+
+JS is written in coffeescript, and we suggest using a project like
+django-compressor to compress your static files and compile the coffeescript on
+your behalf.
+
+.. code:: bash
+
+    $ pip install django-compressor==1.3
 
 .. code:: html
 
+    <script type="text/javascript" src="{% static "bower/jquery/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "tables/js/jquery.ba-bbq.js" %}"></script>
 
-        <script type="text/javascript" src="{% static "bower/jquery/jquery.min.js" %}"></script>
-        <script type="text/javascript" src="{% static "tables/js/jquery.ba-bbq.js" %}"></script>
-        <script type="text/javascript" src="{% static "bower/underscore/underscore.js" %}"></script>
-        <script type="text/javascript" src="{% static "bower/backbone/backbone.js" %}"></script>
-        <script type="text/coffeescript" src="{% static "tables/js/filtering.coffee" %}"></script>
-        <script type="text/coffeescript" src="{% static "tables/js/binding.coffee" %}"></script>
+    <!-- To enable filtering -->
+    <script type="text/javascript" src="{% static "bower/underscore/underscore.js" %}"></script>
+    <script type="text/javascript" src="{% static "bower/backbone/backbone.js" %}"></script>
+    <script type="text/coffeescript" src="{% static "tables/js/filtering.coffee" %}"></script>
+
+    <!-- Event binding for sorting, pagination, etc. -->
+    <script type="text/coffeescript" src="{% static "tables/js/binding.coffee" %}"></script>
 
 
 Starting Points
